@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - '.github/workflows/android-build-scripts.yml'
+      - '.github/workflows/build-ffmpegket.yml'
       - 'android/**'
       - '!android/README.md'
       - 'scripts/**'
@@ -18,6 +19,7 @@ on:
       - main
     paths:
       - '.github/workflows/android-build-scripts.yml'
+      - '.github/workflows/build-ffmpegket.yml'
       - 'android/**'
       - '!android/README.md'
       - 'scripts/**'
@@ -56,14 +58,16 @@ jobs:
       - name: print ffbuild logs
         if: ${{ failure() }}
         run: '[[ -f ./src/ffmpeg/ffbuild/config.log ]] && tail -50 ./src/ffmpeg/ffbuild/config.log'
-      - name: Upload APK and logs
+      - name: Create a zip file of build artifacts
+        run: |
+          zip -r build-artifacts.zip build
+
+      - name: Upload build artifacts
         if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: |
-            build/*.apk
-            build/*.log
+          path: build-artifacts.zip
 
   build-lts-on-linux:
     name: android lts on linux
@@ -96,14 +100,16 @@ jobs:
       - name: print ffbuild logs
         if: ${{ failure() }}
         run: '[[ -f ./src/ffmpeg/ffbuild/config.log ]] && tail -50 ./src/ffmpeg/ffbuild/config.log'
-      - name: Upload APK and logs
+      - name: Create a zip file of build artifacts
+        run: |
+          zip -r build-artifacts.zip build
+
+      - name: Upload build artifacts
         if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: |
-            build/*.apk
-            build/*.log
+          path: build-artifacts.zip
 
   build-main-on-macos:
     name: android main on macos
@@ -134,14 +140,16 @@ jobs:
       - name: print ffbuild logs
         if: ${{ failure() }}
         run: '[[ -f ./src/ffmpeg/ffbuild/config.log ]] && tail -50 ./src/ffmpeg/ffbuild/config.log'
-      - name: Upload APK and logs
+      - name: Create a zip file of build artifacts
+        run: |
+          zip -r build-artifacts.zip build
+
+      - name: Upload build artifacts
         if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: |
-            build/*.apk
-            build/*.log
+          path: build-artifacts.zip
   build-main-without-ffmpeg-kit-protocols-on-linux:
     name: build without ffmpeg-kit protocols
     runs-on: ubuntu-22.04
@@ -173,11 +181,13 @@ jobs:
       - name: print ffbuild logs
         if: ${{ failure() }}
         run: '[[ -f ./src/ffmpeg/ffbuild/config.log ]] && tail -50 ./src/ffmpeg/ffbuild/config.log'
-      - name: Upload APK and logs
+      - name: Create a zip file of build artifacts
+        run: |
+          zip -r build-artifacts.zip build
+
+      - name: Upload build artifacts
         if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: |
-            build/*.apk
-            build/*.log
+          path: build-artifacts.zip
