@@ -49,11 +49,15 @@ jobs:
       - name: Install Homebrew
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - name: Upgrade Homebrew and Packages
+        run: |
+          brew update
+          brew upgrade
       - name: Install Prerequisites
         run: |
           brew install \
-            autoconf@2.69 \
-            automake@1.16 \
+            autoconf \
+            automake \
             libtool \
             pkg-config \
             curl \
