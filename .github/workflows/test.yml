@@ -73,7 +73,8 @@ jobs:
             gtk-doc-tools \
             libtasn1-6 \
             libgnutls28-dev \
-            nettle-dev
+            nettle-dev \
+            gettext
 
       - name: Uninstall old cmake versions
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
@@ -86,7 +87,14 @@ jobs:
 
       - name: Run the build script
         run: |
-          ./android.sh -d --enable-gpl --full --enable-android-media-codec --enable-chromaprint --enable-android-zlib --enable-dav1d --enable-fontconfig --enable-freetype --enable-fribidi --enable-gmp --enable-kvazaar --enable-lame --enable-libaom --enable-libass --enable-libiconv --enable-libilbc --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libxml2 --enable-opencore-amr --enable-openh264 --enable-openssl --enable-opus --enable-sdl --enable-shine --enable-snappy --enable-soxr --enable-speex --enable-srt --enable-tesseract --enable-twolame --enable-vo-amrwbenc --enable-zimg --enable-libvidstab --enable-rubberband --enable-x264 --enable-x265 --enable-xvidcore --redownload-LIBRARY --rebuild-LIBRARY || (cat build.log; exit 1)
+          ./android.sh -d --enable-gpl --full --enable-android-media-codec --enable-chromaprint --enable-android-zlib --enable-dav1d --enable-fontconfig --enable-freetype --enable-fribidi --enable-gmp --enable-gnutls --enable-kvazaar --enable-lame --enable-libaom --enable-libass --enable-libiconv --enable-libilbc --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libxml2 --enable-opencore-amr --enable-openh264 --enable-openssl --enable-opus --enable-sdl --enable-shine --enable-snappy --enable-soxr --enable-speex --enable-srt --enable-tesseract --enable-twolame --enable-vo-amrwbenc --enable-zimg --enable-libvidstab --enable-rubberband --enable-x264 --enable-x265 --enable-xvidcore --redownload-LIBRARY --rebuild-LIBRARY || (cat build.log; exit 1)
+
+      - name: Upload Build Log if Build Fails
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-log
+          path: build.log
 
       - name: Print FFBuild logs
         if: ${{ failure() }}
