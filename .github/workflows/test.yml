@@ -27,12 +27,12 @@ on:
       - 'android.sh'
 
 jobs:
-  build-main-on-linux:
-    name: android main on linux
-    runs-on: ubuntu-22.04
+  build-main-on-macos:
+    name: android main on macOS
+    runs-on: macos-12
     strategy:
       matrix:
-        ndk-version: ['r23b-linux', 'r24-linux', 'r25b-linux']
+        ndk-version: ['r22b-darwin-x86_64', 'r23b-darwin', 'r24-darwin', 'r25b-darwin']
     defaults:
       run:
         shell: bash
@@ -43,10 +43,12 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+      - name: Install Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - name: Install Prerequisites
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          brew install \
             autoconf \
             automake \
             libtool \
@@ -65,13 +67,11 @@ jobs:
             wget \
             autopoint \
             meson \
-            ninja-build \
+            ninja \
             ragel \
             groff \
-            gtk-doc-tools \
-            libtasn1-1
-      - name: Uninstall old cmake versions
-        run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
+            gtk-doc \
+            libtasn1
       - name: Set up Android NDK
         run: |
           curl -s "https://dl.google.com/android/repository/android-ndk-${{ matrix.ndk-version }}.zip" -o ndk.zip
