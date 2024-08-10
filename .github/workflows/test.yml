@@ -52,8 +52,8 @@ jobs:
       - name: Install Prerequisites
         run: |
           brew install \
-            autoconf \
-            automake \
+            autoconf@2.71 \
+            automake@1.16 \
             libtool \
             pkg-config \
             curl \
@@ -66,16 +66,14 @@ jobs:
             bison \
             autogen \
             wget \
+            gettext \
             meson \
             ragel \
             groff \
-            gettext # autopoint is part of gettext
-          
-          brew install \
             gtk-doc \
             libtasn1 \
-            ninja # install ninja via Homebrew
-
+            ninja
+          
           # Reinstall CMake, avoiding the Cask method
           brew uninstall --cask cmake || true
           brew uninstall cmake || true
