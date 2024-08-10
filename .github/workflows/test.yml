@@ -69,7 +69,7 @@ jobs:
             ragel \
             groff \
             gtk-doc-tools \
-            libtasn1-6
+            libtasn1-1
       - name: Uninstall old cmake versions
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
       - name: Set up Android NDK
