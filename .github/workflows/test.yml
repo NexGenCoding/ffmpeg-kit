@@ -43,6 +43,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+      - name: Install Rosetta 2 (for Apple Silicon Macs)
+        run: |
+          sudo softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 is already installed"
       - name: Install Homebrew
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -66,14 +69,14 @@ jobs:
             meson \
             ragel \
             groff \
-            libtasn1
+            libtasn1 \
+            gettext # autopoint is part of gettext
           
           brew install --cask \
-            doxygen \
-            cmake
+            doxygen
           
-          brew install gettext # autopoint is part of gettext
-          brew link gettext --force --overwrite
+          brew install cmake # Use Homebrew formula for cmake
+          brew link cmake --force
       - name: Set up Android NDK
         run: |
           curl -s "https://dl.google.com/android/repository/android-ndk-${{ matrix.ndk-version }}.zip" -o ndk.zip
