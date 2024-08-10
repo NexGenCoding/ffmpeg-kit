@@ -110,6 +110,9 @@ jobs:
           name: ffmpeg-kit-libs
           path: |
             android/libs
+      - name: Upload Build Artifacts obj
+        uses: actions/upload-artifact@v3
+        with:
           name: ffmpeg-kit-libs-obj
           path: |
             android/obj
