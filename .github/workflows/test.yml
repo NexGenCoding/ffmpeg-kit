@@ -69,14 +69,16 @@ jobs:
             meson \
             ragel \
             groff \
-            libtasn1 \
             gettext # autopoint is part of gettext
           
           brew install --cask \
-            doxygen
-          
-          brew install cmake # Use Homebrew formula for cmake
-          brew link cmake --force
+            doxygen \
+            cmake # Install CMake using Cask to ensure GUI is installed as well
+
+          brew install \
+            gtk-doc \
+            libtasn1 \
+            ninja # install ninja via Homebrew
       - name: Set up Android NDK
         run: |
           curl -s "https://dl.google.com/android/repository/android-ndk-${{ matrix.ndk-version }}.zip" -o ndk.zip
